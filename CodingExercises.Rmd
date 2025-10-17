@@ -1,0 +1,48 @@
+---
+title: "Coding Exercises"
+output: html_notebook
+---
+```{r}
+source("New_R_Setup.R")
+```
+
+```{r}
+data("knz_bison")
+```
+
+Create a new column in the bison dataset that calculates the individual’s age at the time of observation.
+```{r}
+knz_bison <- knz_bison %>%
+    mutate(age = rec_year - animal_yob)
+```
+
+  
+Write a function that will first filter the bison dataset based on any user-specified weight threshold (returning the filtered dataset).
+```{r}
+filter_bison <- knz_bison %>%
+  filter(animal_weight>400)%>%
+    return(filter_bison)
+
+```
+
+  
+Create a boxplot showing weight distribution between male and female bison, and then conduct a t-test to see if weight is significantly difference between males and females.
+```{r}
+filter_bison %>%
+  ggplot(aes(x = animal_sex, y = animal_weight, fill = animal_sex)) +
+  geom_boxplot() +
+  labs(
+    title = "Bison Weight Distribution by Sex",
+    x = "Sex",
+    y = "Weight (kg)"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+t_test_result <- t.test(animal_weight ~ animal_sex, data = filter_bison)
+t_test_result
+
+```
+  
+The t-test indicates a statistically significant difference in mean weight between male and female bison (t = -4.56, p < 0.001), with males (mean = 905.4 kg) being, on average, about 40 kg heavier than females (mean = 865.7 kg).
